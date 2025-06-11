@@ -33,7 +33,6 @@ export default function Home() {
             Everything you need to manage your finances
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {console.log(featuresData)}
             {
               featuresData?.map((feature, index) => (
                 <Card className="p-6" key={index}>
