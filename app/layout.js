@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] })
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "sonner";
+import { dark, neobrutalism } from '@clerk/themes'; 
 export const metadata = {
   title: "Wealth",
   description: "One stop finance App",
@@ -12,7 +13,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+    
+    >
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${inter.className} antialiased`}

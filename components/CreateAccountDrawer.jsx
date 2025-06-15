@@ -1,28 +1,35 @@
-"use client"
-import { createAccount } from "@/actions/dashboard";
-import { accountSchema } from "@/app/lib/schema";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import useFetch from "@/hooks/use-fetch";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerHeader,
     DrawerTitle,
-    DrawerTrigger
+    DrawerTrigger,
+    DrawerClose,
 } from "@/components/ui/drawer";
-import useFetch from "@/hooks/use-fetch";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import { useEffect, useState } from 'react';
-import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Switch } from "./ui/switch";
-import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { createAccount } from "@/actions/dashboard";
+import { accountSchema } from "@/app/lib/schema";
 
-const CreateAccountDrawer = ({ children }) => {
+export function CreateAccountDrawer({ children }) {
     const [open, setOpen] = useState(false);
-
     const {
         register,
         handleSubmit,
@@ -49,21 +56,22 @@ const CreateAccountDrawer = ({ children }) => {
 
     const onSubmit = async (data) => {
         await createAccountFn(data);
-    }
+    };
 
     useEffect(() => {
-        if (newAccount && !createAccountLoading) {
-            toast.success(newAccount.message || "Account created successfully");
+        if (newAccount) {
+            toast.success("Account created successfully");
             reset();
             setOpen(false);
         }
-    }, [createAccountLoading, newAccount]);
+    }, [newAccount, reset]);
 
     useEffect(() => {
         if (error) {
             toast.error(error.message || "Failed to create account");
         }
-    }, [error])
+    }, [error]);
+
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>{children}</DrawerTrigger>
@@ -74,16 +82,19 @@ const CreateAccountDrawer = ({ children }) => {
                 <div className="px-4 pb-4">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium" htmlFor="name">Account Type</label>
+                            <label
+                                htmlFor="name"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Account Name
+                            </label>
                             <Input
                                 id="name"
-                                placeholder="e.g. , Main Checking"
+                                placeholder="e.g., Main Checking"
                                 {...register("name")}
                             />
                             {errors.name && (
-                                <p className="text-red-500 text-sm">
-                                    {errors.name.message}
-                                </p>
+                                <p className="text-sm text-red-500">{errors.name.message}</p>
                             )}
                         </div>
 
@@ -174,7 +185,5 @@ const CreateAccountDrawer = ({ children }) => {
                 </div>
             </DrawerContent>
         </Drawer>
-    )
+    );
 }
-
-export default CreateAccountDrawer

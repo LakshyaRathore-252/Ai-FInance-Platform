@@ -1,11 +1,11 @@
-import { getUserAccounts } from '@/actions/dashboard'
-import CreateAccountDrawer from '@/components/CreateAccountDrawer'
+import { getCurrentBudget } from '@/actions/budegt';
+import { getUserAccounts } from '@/actions/dashboard';
+import { CreateAccountDrawer } from '@/components/CreateAccountDrawer';
 import { Card, CardContent } from '@/components/ui/card'
 import { Plus } from 'lucide-react'
 import React from 'react'
-import AccountCard from './_components/Account-card'
-import { getCurrentBudget } from '@/actions/budegt'
-import BudgetProgress from './_components/Budegt-Progress'
+import BudgetProgress from './_components/Budegt-Progress';
+import AccountCard from './_components/Account-card';
 
 export default async function DashboardPage() {
 
